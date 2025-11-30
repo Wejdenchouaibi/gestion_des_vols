@@ -1,0 +1,121 @@
+<div class="client-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="header-left">
+        <img src="assets/logo Tunisair.png" alt="Tunisair Logo" class="logo">
+        <h1>Mon Espace Client</h1>
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <span class="welcome-text">Bonjour, {{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+          <button class="btn btn-outline-danger btn-sm" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <!-- Quick Actions -->
+    <section class="actions-section">
+      <app-search-flight></app-search-flight>
+    </section>
+
+    <!-- My Bookings -->
+    <section class="bookings-section">
+      <h2>Mes Réservations</h2>
+      <div class="bookings-grid" *ngIf="myBookings.length > 0; else noBookings">
+        <div class="booking-card" *ngFor="let booking of myBookings">
+          <div class="booking-header">
+            <h3>{{ booking.flightNumber }}</h3>
+            <span class="status-badge" [class.status-confirmed]="booking.status === 'Confirmé'"
+                  [class.status-pending]="booking.status === 'En attente'">
+              {{ booking.status }}
+            </span>
+          </div>
+          
+          <div class="booking-details">
+            <div class="route">
+              <div class="departure">
+                <i class="fas fa-plane-departure"></i>
+                <div>
+                  <strong>Départ</strong>
+                  <p>{{ booking.departure | date:'dd/MM/yyyy HH:mm' }}</p>
+                </div>
+              </div>
+              
+              <div class="destination">
+                <i class="fas fa-plane-arrival"></i>
+                <div>
+                  <strong>Retour</strong>
+                  <p>{{ booking.return | date:'dd/MM/yyyy HH:mm' }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="booking-info">
+              <div class="destination-name">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ booking.destination }}</span>
+              </div>
+              <div class="price">
+                <strong>{{ booking.price | currency:'EUR':'symbol':'1.0-0' }}</strong>
+              </div>
+            </div>
+          </div>
+          
+          <div class="booking-actions">
+            
+            <button class="btn btn-outline-danger btn-sm" (click)="cancelBooking(booking.id)">
+              <i class="fas fa-times"></i> Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <ng-template #noBookings>
+        <div class="no-bookings">
+          <i class="fas fa-ticket-alt"></i>
+          <h3>Aucune réservation</h3>
+          <p>Vous n'avez pas encore de réservations. Commencez par rechercher un vol !</p>
+          <button class="btn btn-primary" (click)="searchFlights()">
+            <i class="fas fa-search"></i> Rechercher un vol
+          </button>
+        </div>
+      </ng-template>
+    </section>
+
+    <!-- Upcoming Flights -->
+    <section class="upcoming-section" *ngIf="upcomingFlights.length > 0">
+      <h2>Prochains Départs</h2>
+      <div class="flights-list">
+        <div class="flight-item" *ngFor="let flight of upcomingFlights">
+          <div class="flight-info">
+            <div class="flight-number">
+              <h4>{{ flight.flightNumber }}</h4>
+              <p>{{ flight.destination }}</p>
+            </div>
+            <div class="flight-details">
+              <div class="departure-time">
+                <i class="fas fa-clock"></i>
+                <span>{{ flight.departure | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <div class="gate-seat">
+                <span><i class="fas fa-door-open"></i> Porte {{ flight.gate }}</span>
+                <span><i class="fas fa-chair"></i> Siège {{ flight.seat }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="flight-actions">
+            <button class="btn btn-success btn-sm" (click)="checkIn(flight.id)">
+              <i class="fas fa-check-in"></i> Check-in
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

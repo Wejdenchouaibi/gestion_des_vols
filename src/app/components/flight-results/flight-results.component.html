@@ -1,0 +1,46 @@
+<div class="flight-results-page">
+	<div class="results-header">
+		<h2>Résultats de recherche</h2>
+		<span class="results-logo">
+			<img src="assets/logo Tunisair.png" alt="Tunisair Logo" height="34" />
+		</span>
+	</div>
+	<div class="results-summary" *ngIf="flights && flights.length > 0">
+		<p>{{ flights.length }} vols trouvés</p>
+	</div>
+	<div class="results-list" *ngIf="flights && flights.length > 0; else noFlights">
+		<div class="flight-card" *ngFor="let flight of flights">
+			<div class="flight-info">
+				<div class="flight-main">
+					<span class="flight-number">Vol {{ flight.flightNumber }}</span>
+					<span class="flight-date">{{ flight.departure | date:'dd/MM/yyyy HH:mm' }}</span>
+				</div>
+				<div class="flight-route">
+					<span class="departure"><i class="fas fa-plane-departure"></i> {{ flight.origin }}</span>
+					<span class="arrow">→</span>
+					<span class="arrival"><i class="fas fa-plane-arrival"></i> {{ flight.destination }}</span>
+				</div>
+				<div class="flight-details">
+					<span class="duration"><i class="fas fa-clock"></i> {{ flight.duration }}</span>
+					<span class="seats"><i class="fas fa-chair"></i> {{ flight.seats }} places</span>
+				</div>
+			</div>
+			<div class="flight-actions">
+				<span class="flight-price">{{ flight.price | currency:'TND':'symbol':'1.0-0' }}</span>
+				<button class="btn btn-primary" (click)="bookFlight(flight)">
+					<i class="fas fa-ticket-alt"></i> Réserver
+				</button>
+			</div>
+		</div>
+	</div>
+	<ng-template #noFlights>
+		<div class="no-flights">
+			<i class="fas fa-plane-slash"></i>
+			<h3>Aucun vol trouvé</h3>
+			<p>Essayez de modifier vos critères de recherche.</p>
+			<button class="btn btn-outline-primary" (click)="backToSearch()">
+				<i class="fas fa-search"></i> Nouvelle recherche
+			</button>
+		</div>
+	</ng-template>
+</div>

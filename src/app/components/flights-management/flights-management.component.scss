@@ -1,0 +1,203 @@
+// Thème Tunisair pour la gestion des vols
+.flights-management {
+  padding: 40px 0 60px 0;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  h2 {
+    color: #991b1b;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 2rem;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding: 12px 24px;
+    box-shadow: 0 2px 8px rgba(220,38,38,0.10);
+    transition: background 0.18s, transform 0.18s;
+    &:hover, &:focus {
+      background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+      transform: translateY(-2px) scale(1.03);
+    }
+    i {
+      margin-right: 8px;
+    }
+  }
+}
+
+.flights-table-container {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(220,38,38,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  padding: 0 0 20px 0;
+  margin-bottom: 40px;
+  overflow-x: auto;
+  .table {
+    width: 100%;
+    margin: 0;
+    thead {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: #fff;
+      th {
+        padding: 16px;
+        font-weight: 700;
+        border: none;
+        text-align: left;
+      }
+    }
+    tbody {
+      tr {
+        border-bottom: 1px solid #f0f0f0;
+        &:last-child {
+          border-bottom: none;
+        }
+        &:hover {
+          background-color: #f8f9fa;
+        }
+        td {
+          padding: 14px 12px;
+          border: none;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  .status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    &.status-on-time {
+      background-color: #e6f4ea;
+      color: #059669;
+    }
+    &.status-delayed {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+  }
+  .btn-sm {
+    font-size: 0.95em;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-right: 4px;
+  }
+}
+
+// Modale
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flight-modal {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(220,38,38,0.18), 0 2px 8px rgba(0,0,0,0.08);
+  padding: 32px 28px 18px 28px;
+  min-width: 340px;
+  max-width: 95vw;
+  width: 480px;
+  position: relative;
+  h3 {
+    color: #991b1b;
+    font-weight: 800;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .form-row {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 18px;
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    label {
+      font-weight: 600;
+      color: #991b1b;
+      margin-bottom: 6px;
+    }
+    .form-control {
+      border-radius: 8px;
+      border: 2px solid #e1e5e9;
+      padding: 10px 12px;
+      font-size: 1em;
+      transition: border 0.2s;
+      &:focus {
+        border-color: #dc2626;
+        outline: none;
+      }
+    }
+  }
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+    .btn-primary {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      padding: 10px 22px;
+      transition: background 0.18s, transform 0.18s;
+      &:hover, &:focus {
+        background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+        transform: translateY(-2px) scale(1.03);
+      }
+    }
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #991b1b;
+      border: 1px solid #dc2626;
+      border-radius: 8px;
+      font-weight: 700;
+      padding: 10px 22px;
+      transition: background 0.18s, color 0.18s;
+      &:hover, &:focus {
+        background: #fff0f0;
+        color: #dc2626;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .flights-management {
+    padding: 20px 0 30px 0;
+  }
+  .header-section {
+    flex-direction: column;
+    gap: 12px;
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+  .flight-modal {
+    padding: 18px 6px 10px 6px;
+    min-width: 90vw;
+    width: 98vw;
+  }
+}

@@ -1,0 +1,118 @@
+<div class="planes-management">
+	<div class="header-section">
+		<h2>Gestion des avions</h2>
+		<button class="btn btn-primary" (click)="openPlaneModal()">
+			<i class="fas fa-plus"></i> Ajouter un avion
+		</button>
+	</div>
+
+	<!-- Formulaire de filtres -->
+	<div class="filter-section">
+		<form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+			<div class="form-row">
+				<div class="form-group">
+					<label>Modèle</label>
+					<input type="text" formControlName="model" class="form-control" placeholder="Ex: Airbus A320">
+				</div>
+				<div class="form-group">
+					<label>Immatriculation</label>
+					<input type="text" formControlName="registration" class="form-control" placeholder="Ex: TS-INA">
+				</div>
+				<div class="form-group">
+					<label>Statut</label>
+					<select formControlName="available" class="form-control">
+						<option value="">Tous</option>
+						<option value="true">Disponible</option>
+						<option value="false">En maintenance</option>
+					</select>
+				</div>
+			</div>
+			<div class="filter-actions">
+				<button type="submit" class="btn btn-primary">Appliquer les filtres</button>
+				<button type="button" class="btn btn-secondary" (click)="resetFilters()">Réinitialiser</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- Tableau des avions -->
+	<div class="planes-table-container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Modèle</th>
+					<th>Immatriculation</th>
+					<th>Capacité</th>
+					<th>Statut</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let plane of planes">
+					<td>{{ plane.model }}</td>
+					<td>{{ plane.registration }}</td>
+					<td>{{ plane.capacity }}</td>
+					<td>
+						<span class="status-badge" [class.status-available]="plane.available" [class.status-unavailable]="!plane.available">
+							{{ plane.available ? 'Disponible' : 'En maintenance' }}
+						</span>
+					</td>
+					<td>
+						<button class="btn btn-sm btn-outline-primary" (click)="editPlane(plane)"><i class="fas fa-edit"></i></button>
+						<button class="btn btn-sm btn-outline-danger" (click)="deletePlane(plane)"><i class="fas fa-trash"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Modale d'ajout/édition d'avion -->
+	<div class="modal-backdrop" *ngIf="showPlaneModal">
+		<div class="plane-modal">
+			<h3>{{ editingPlane ? 'Modifier l\'avion' : 'Ajouter un avion' }}</h3>
+			<form [formGroup]="planeForm" (ngSubmit)="savePlane()">
+				<div class="form-row">
+					<div class="form-group">
+						<label>Modèle</label>
+						<input type="text" formControlName="model" class="form-control" [class.is-invalid]="planeForm.get('model')?.invalid && planeForm.get('model')?.touched">
+						<div class="invalid-feedback" *ngIf="planeForm.get('model')?.hasError('required')">
+							Le modèle est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Immatriculation</label>
+						<input type="text" formControlName="registration" class="form-control" [class.is-invalid]="planeForm.get('registration')?.invalid && planeForm.get('registration')?.touched">
+						<div class="invalid-feedback" *ngIf="planeForm.get('registration')?.hasError('required')">
+							L'immatriculation est requise
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label>Capacité</label>
+						<input type="number" formControlName="capacity" class="form-control" [class.is-invalid]="planeForm.get('capacity')?.invalid && planeForm.get('capacity')?.touched">
+						<div class="invalid-feedback" *ngIf="planeForm.get('capacity')?.hasError('required')">
+							La capacité est requise
+						</div>
+						<div class="invalid-feedback" *ngIf="planeForm.get('capacity')?.hasError('min')">
+							La capacité doit être supérieure à 0
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Statut</label>
+						<select formControlName="available" class="form-control" [class.is-invalid]="planeForm.get('available')?.invalid && planeForm.get('available')?.touched">
+							<option [value]="true">Disponible</option>
+							<option [value]="false">En maintenance</option>
+						</select>
+						<div class="invalid-feedback" *ngIf="planeForm.get('available')?.hasError('required')">
+							Le statut est requis
+						</div>
+					</div>
+				</div>
+				<div class="modal-actions">
+					<button type="submit" class="btn btn-primary" [disabled]="planeForm.invalid">{{ editingPlane ? 'Enregistrer' : 'Ajouter' }}</button>
+					<button type="button" class="btn btn-secondary" (click)="closePlaneModal()">Annuler</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

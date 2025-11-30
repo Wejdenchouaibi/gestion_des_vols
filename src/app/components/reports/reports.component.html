@@ -1,0 +1,78 @@
+<div class="reports-page">
+	<div class="header-section">
+		<h2>Rapports & Statistiques</h2>
+		<div class="filters">
+			<label>Période :</label>
+			<select formControlName="period" [formGroup]="periodForm" (change)="applyPeriod()">
+				<option value="this_month">Ce mois</option>
+				<option value="last_3_months">3 derniers mois</option>
+				<option value="this_year">Cette année</option>
+			</select>
+		</div>
+	</div>
+
+	<!-- Statistiques globales -->
+	<div class="stats-grid">
+		<div class="stat-card">
+			<div class="stat-icon"><i class="fas fa-plane"></i></div>
+			<div class="stat-content">
+				<h3>{{ reports.total_flights || 0 }}</h3>
+				<p>Vols</p>
+			</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon"><i class="fas fa-users"></i></div>
+			<div class="stat-content">
+				<h3>{{ reports.total_passengers || 0 }}</h3>
+				<p>Passagers</p>
+			</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon"><i class="fas fa-euro-sign"></i></div>
+			<div class="stat-content">
+				<h3>{{ reports.total_revenues || 0 }} €</h3>
+				<p>Revenus</p>
+			</div>
+		</div>
+		<div class="stat-card">
+			<div class="stat-icon"><i class="fas fa-percentage"></i></div>
+			<div class="stat-content">
+				<h3>{{ reports.occupancy_rate || 0 }}%</h3>
+				<p>Taux d'occupation</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Graphiques -->
+	<div class="charts-section">
+		<div class="chart-card">
+			<h4>Vols par mois</h4>
+			<canvas id="flightsChart" style="max-height: 300px;"></canvas>
+		</div>
+		<div class="chart-card">
+			<h4>Répartition par destination</h4>
+			<canvas id="destinationsChart" style="max-height: 300px;"></canvas>
+		</div>
+	</div>
+
+	<!-- Tableau de synthèse -->
+	<div class="summary-section">
+		<h3>Top Destinations</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Destination</th>
+					<th>Nombre de vols</th>
+					<th>Passagers</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let dest of reports.top_destinations || []">
+					<td>{{ dest.destination }}</td>
+					<td>{{ dest.flights }}</td>
+					<td>{{ dest.passengers }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

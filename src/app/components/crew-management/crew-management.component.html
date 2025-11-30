@@ -1,0 +1,117 @@
+<div class="crew-management">
+	<div class="header-section">
+		<h2>Gestion des équipages</h2>
+		<button class="btn btn-primary" (click)="openCrewModal()">
+			<i class="fas fa-plus"></i> Ajouter un équipage
+		</button>
+	</div>
+
+	<!-- Formulaire de filtres -->
+	<div class="filter-section">
+		<form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+			<div class="form-row">
+				<div class="form-group">
+					<label>Nom de l'équipage</label>
+					<input type="text" formControlName="name" class="form-control" placeholder="Ex: Équipage 1">
+				</div>
+				<div class="form-group">
+					<label>Rôle principal</label>
+					<input type="text" formControlName="mainRole" class="form-control" placeholder="Ex: Pilote">
+				</div>
+				<div class="form-group">
+					<label>Disponibilité</label>
+					<select formControlName="available" class="form-control">
+						<option value="">Tous</option>
+						<option value="true">Disponible</option>
+						<option value="false">Occupé</option>
+					</select>
+				</div>
+			</div>
+			<div class="filter-actions">
+				<button type="submit" class="btn btn-primary">Appliquer les filtres</button>
+				<button type="button" class="btn btn-secondary" (click)="resetFilters()">Réinitialiser</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- Tableau des équipages -->
+	<div class="crew-table-container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Membres</th>
+					<th>Rôle principal</th>
+					<th>Disponibilité</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let crew of crews">
+					<td>{{ crew.name }}</td>
+					<td>
+						<ul style="margin:0; padding-left:18px;">
+							<li *ngFor="let member of crew.members">{{ member }}</li>
+						</ul>
+					</td>
+					<td>{{ crew.mainRole }}</td>
+					<td>
+						<span class="status-badge" [class.status-available]="crew.available" [class.status-unavailable]="!crew.available">
+							{{ crew.available ? 'Disponible' : 'Occupé' }}
+						</span>
+					</td>
+					<td>
+						<button class="btn btn-sm btn-outline-primary" (click)="editCrew(crew)"><i class="fas fa-edit"></i></button>
+						<button class="btn btn-sm btn-outline-danger" (click)="deleteCrew(crew)"><i class="fas fa-trash"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Modale d'ajout/édition d'équipage -->
+	<div class="modal-backdrop" *ngIf="showCrewModal">
+		<div class="crew-modal">
+			<h3>{{ editingCrew ? 'Modifier l\'équipage' : 'Ajouter un équipage' }}</h3>
+			<form [formGroup]="crewForm" (ngSubmit)="saveCrew()">
+				<div class="form-row">
+					<div class="form-group">
+						<label>Nom de l'équipage</label>
+						<input type="text" formControlName="name" class="form-control" [class.is-invalid]="crewForm.get('name')?.invalid && crewForm.get('name')?.touched">
+						<div class="invalid-feedback" *ngIf="crewForm.get('name')?.hasError('required')">
+							Le nom de l'équipage est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Rôle principal</label>
+						<input type="text" formControlName="mainRole" class="form-control" [class.is-invalid]="crewForm.get('mainRole')?.invalid && crewForm.get('mainRole')?.touched">
+						<div class="invalid-feedback" *ngIf="crewForm.get('mainRole')?.hasError('required')">
+							Le rôle principal est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Disponibilité</label>
+						<select formControlName="available" class="form-control" [class.is-invalid]="crewForm.get('available')?.invalid && crewForm.get('available')?.touched">
+							<option [value]="true">Disponible</option>
+							<option [value]="false">Occupé</option>
+						</select>
+						<div class="invalid-feedback" *ngIf="crewForm.get('available')?.hasError('required')">
+							La disponibilité est requise
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label>Membres (séparés par une virgule)</label>
+					<input type="text" formControlName="members" class="form-control" placeholder="ex: Ali, Sami, Fethi" [class.is-invalid]="crewForm.get('members')?.invalid && crewForm.get('members')?.touched">
+					<div class="invalid-feedback" *ngIf="crewForm.get('members')?.hasError('required')">
+						Les membres sont requis
+					</div>
+				</div>
+				<div class="modal-actions">
+					<button type="submit" class="btn btn-primary" [disabled]="crewForm.invalid">{{ editingCrew ? 'Enregistrer' : 'Ajouter' }}</button>
+					<button type="button" class="btn btn-secondary" (click)="closeCrewModal()">Annuler</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

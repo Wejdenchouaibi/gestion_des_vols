@@ -1,1 +1,162 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Import Bootstrap */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Import Font Awesome */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Couleurs Tunisair */
+$tunisair-red: #dc2626;
+$tunisair-darkred: #991b1b;
+$tunisair-white: #fff;
+$tunisair-light: #f8f9fa;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: $tunisair-darkred;
+  background-color: $tunisair-white;
+}
+
+/* Font Awesome Icons */
+.fas, .far, .fab {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+/* Custom Button Styles */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, $tunisair-red 0%, $tunisair-darkred 100%);
+  border: none;
+  color: $tunisair-white;
+  
+  &:hover {
+    background: linear-gradient(135deg, $tunisair-darkred 0%, $tunisair-red 100%);
+    color: $tunisair-white;
+  }
+}
+
+/* Custom Form Styles */
+.form-control {
+  border-radius: 8px;
+  border: 2px solid #e1e5e9;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    border-color: $tunisair-red;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  }
+}
+
+/* Custom Card Styles */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+/* Custom Table Styles */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  
+  thead {
+  background: linear-gradient(135deg, $tunisair-red 0%, $tunisair-darkred 100%);
+  color: $tunisair-white;
+    
+    th {
+      border: none;
+      font-weight: 600;
+    }
+  }
+  
+  tbody {
+    tr {
+      border-bottom: 1px solid #f0f0f0;
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      &:hover {
+        background-color: $tunisair-white;
+      }
+    }
+  }
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(135deg, $tunisair-red 0%, $tunisair-darkred 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-custom {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-custom-lg {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,53 @@
+<div class="payment-page">
+	<div class="payment-header">
+		<h2>Paiement</h2>
+		<span class="payment-logo">
+			<img src="assets/logo Tunisair.png" alt="Tunisair Logo" height="38" />
+		</span>
+	</div>
+	<div class="payment-content">
+		<form class="payment-form">
+			<h3>Informations de la carte</h3>
+			<div class="form-group">
+				<label for="cardName">Nom sur la carte</label>
+				<input id="cardName" name="cardName" type="text" placeholder="Nom complet" required />
+			</div>
+			<div class="form-row">
+				<div class="form-group">
+					<label for="cardNumber">Numéro de carte</label>
+					<input id="cardNumber" name="cardNumber" type="text" maxlength="19" placeholder="1234 5678 9012 3456" required />
+				</div>
+				<div class="form-group small">
+					<label for="expDate">Exp.</label>
+					<input id="expDate" name="expDate" type="text" maxlength="5" placeholder="MM/AA" required />
+				</div>
+				<div class="form-group small">
+					<label for="cvv">CVV</label>
+					<input id="cvv" name="cvv" type="password" maxlength="4" placeholder="***" required />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email">Email de confirmation</label>
+				<input id="email" name="email" type="email" placeholder="exemple@email.com" required />
+			</div>
+			<button type="submit" class="pay-btn">Payer</button>
+		</form>
+		<div class="payment-summary">
+			<h3>Résumé</h3>
+			<ul>
+				<li><span>Vol :</span> <strong>Tunis - Paris</strong></li>
+				<li><span>Date :</span> <strong>12/10/2025</strong></li>
+				<li><span>Passager :</span> <strong>Ahmed Ben Salah</strong></li>
+				<li><span>Classe :</span> <strong>Économique</strong></li>
+				<li><span>Prix :</span> <strong>420 TND</strong></li>
+			</ul>
+			<div class="total">
+				<span>Total à payer</span>
+				<span class="amount">420 TND</span>
+			</div>
+			<div class="secure">
+				<span>🔒 Paiement sécurisé</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,171 @@
+<div class="flights-management">
+	<div class="header-section">
+		<h2>Gestion des vols</h2>
+		<button class="btn btn-primary" (click)="openFlightModal()">
+			<i class="fas fa-plus"></i> Ajouter un vol
+		</button>
+	</div>
+
+	<!-- Formulaire de filtres -->
+	<div class="filter-section">
+		<form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+			<div class="form-row">
+				<div class="form-group">
+					<label>Numéro de vol</label>
+					<input type="text" formControlName="number" class="form-control" placeholder="Ex: TU123">
+				</div>
+				<div class="form-group">
+					<label>Départ</label>
+					<input type="text" formControlName="departure" class="form-control" placeholder="Ex: Tunis">
+				</div>
+				<div class="form-group">
+					<label>Arrivée</label>
+					<input type="text" formControlName="arrival" class="form-control" placeholder="Ex: Paris">
+				</div>
+				<div class="form-group">
+					<label>Statut</label>
+					<select formControlName="status" class="form-control">
+						<option value="">Tous</option>
+						<option value="A l'heure">A l'heure</option>
+						<option value="Retardé">Retardé</option>
+						<option value="Annulé">Annulé</option>
+					</select>
+				</div>
+			</div>
+			<div class="filter-actions">
+				<button type="submit" class="btn btn-primary">Appliquer les filtres</button>
+				<button type="button" class="btn btn-secondary" (click)="resetFilters()">Réinitialiser</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- Tableau des vols -->
+	<div class="flights-table-container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Numéro</th>
+					<th>Départ</th>
+					<th>Arrivée</th>
+					<th>Avion</th>
+					<th>Équipage</th>
+					<th>Horaires</th>
+					<th>Prix (classe)</th>
+					<th>Promotion</th>
+					<th>Statut</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let flight of flights">
+					<td>{{ flight.number }}</td>
+					<td>{{ flight.departure }}</td>
+					<td>{{ flight.arrival }}</td>
+					<td>{{ flight.plane }}</td>
+					<td>{{ flight.crew }}</td>
+					<td>{{ flight.schedule }}</td>
+					<td>{{ flight.price }}</td>
+					<td>{{ flight.promotion }}</td>
+					<td>
+						<span class="status-badge" [class.status-on-time]="flight.status === 'A l\'heure'" [class.status-delayed]="flight.status === 'Retardé'" [class.status-cancelled]="flight.status === 'Annulé'">
+							{{ flight.status }}
+						</span>
+					</td>
+					<td>
+						<button class="btn btn-sm btn-outline-primary" (click)="editFlight(flight)"><i class="fas fa-edit"></i></button>
+						<button class="btn btn-sm btn-outline-danger" (click)="deleteFlight(flight)"><i class="fas fa-trash"></i></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Modale d'ajout/édition de vol -->
+	<div class="modal-backdrop" *ngIf="showFlightModal">
+		<div class="flight-modal">
+			<h3>{{ editingFlight ? 'Modifier le vol' : 'Ajouter un vol' }}</h3>
+			<form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
+				<div class="form-row">
+					<div class="form-group">
+						<label>Numéro de vol</label>
+						<input type="text" formControlName="number" class="form-control" [class.is-invalid]="flightForm.get('number')?.invalid && flightForm.get('number')?.touched">
+						<div class="invalid-feedback" *ngIf="flightForm.get('number')?.hasError('required')">
+							Le numéro de vol est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Départ</label>
+						<input type="text" formControlName="departure" class="form-control" [class.is-invalid]="flightForm.get('departure')?.invalid && flightForm.get('departure')?.touched">
+						<div class="invalid-feedback" *ngIf="flightForm.get('departure')?.hasError('required')">
+							Le départ est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Arrivée</label>
+						<input type="text" formControlName="arrival" class="form-control" [class.is-invalid]="flightForm.get('arrival')?.invalid && flightForm.get('arrival')?.touched">
+						<div class="invalid-feedback" *ngIf="flightForm.get('arrival')?.hasError('required')">
+							L'arrivée est requise
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label>Avion</label>
+						<select formControlName="plane" class="form-control" [class.is-invalid]="flightForm.get('plane')?.invalid && flightForm.get('plane')?.touched">
+							<option value="">Sélectionner un avion</option>
+							<option *ngFor="let plane of planes" [value]="plane">{{ plane }}</option>
+						</select>
+						<div class="invalid-feedback" *ngIf="flightForm.get('plane')?.hasError('required')">
+							L'avion est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Équipage</label>
+						<select formControlName="crew" class="form-control" [class.is-invalid]="flightForm.get('crew')?.invalid && flightForm.get('crew')?.touched">
+							<option value="">Sélectionner un équipage</option>
+							<option *ngFor="let crew of crews" [value]="crew">{{ crew }}</option>
+						</select>
+						<div class="invalid-feedback" *ngIf="flightForm.get('crew')?.hasError('required')">
+							L'équipage est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Horaires</label>
+						<input type="text" formControlName="schedule" class="form-control" [class.is-invalid]="flightForm.get('schedule')?.invalid && flightForm.get('schedule')?.touched">
+						<div class="invalid-feedback" *ngIf="flightForm.get('schedule')?.hasError('required')">
+							Les horaires sont requis
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label>Prix (classe)</label>
+						<input type="text" formControlName="price" class="form-control" [class.is-invalid]="flightForm.get('price')?.invalid && flightForm.get('price')?.touched">
+						<div class="invalid-feedback" *ngIf="flightForm.get('price')?.hasError('required')">
+							Le prix est requis
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Promotion</label>
+						<input type="text" formControlName="promotion" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Statut</label>
+						<select formControlName="status" class="form-control" [class.is-invalid]="flightForm.get('status')?.invalid && flightForm.get('status')?.touched">
+							<option value="A l'heure">A l'heure</option>
+							<option value="Retardé">Retardé</option>
+							<option value="Annulé">Annulé</option>
+						</select>
+						<div class="invalid-feedback" *ngIf="flightForm.get('status')?.hasError('required')">
+							Le statut est requis
+						</div>
+					</div>
+				</div>
+				<div class="modal-actions">
+					<button type="submit" class="btn btn-primary" [disabled]="flightForm.invalid">{{ editingFlight ? 'Enregistrer' : 'Ajouter' }}</button>
+					<button type="button" class="btn btn-secondary" (click)="closeFlightModal()">Annuler</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

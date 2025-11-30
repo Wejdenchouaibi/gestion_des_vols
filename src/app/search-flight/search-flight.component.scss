@@ -1,0 +1,119 @@
+
+$tunisair-red: #dc2626;
+$tunisair-darkred: #991b1b;
+$tunisair-white: #fff;
+$tunisair-light: #f8f9fa;
+
+.search-container {
+  max-width: 540px;
+  margin: 40px auto 0 auto;
+  background: $tunisair-white;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(220,38,38,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  padding: 32px 28px 24px 28px;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  img {
+    height: 38px;
+  }
+  h2 {
+    color: $tunisair-darkred;
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+label {
+  font-weight: 700;
+  color: $tunisair-darkred;
+  margin-bottom: 4px;
+}
+
+input, select {
+  border-radius: 8px;
+  border: 2px solid #e1e5e9;
+  padding: 10px 14px;
+  font-size: 1em;
+  color: $tunisair-darkred;
+  background: $tunisair-white;
+  font-weight: 600;
+  transition: border 0.2s;
+  &:focus {
+    border-color: $tunisair-red;
+    outline: none;
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, $tunisair-red 0%, $tunisair-darkred 100%);
+  color: $tunisair-white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.1em;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(220,38,38,0.10);
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: linear-gradient(135deg, $tunisair-darkred 0%, $tunisair-red 100%);
+  }
+}
+
+.btn-secondary {
+  background: #f3f3f3;
+  color: $tunisair-darkred;
+  border: 1.5px solid $tunisair-red;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: $tunisair-light;
+  }
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .search-container {
+    padding: 16px 4px 10px 4px;
+  }
+  .search-header {
+    gap: 8px;
+    h2 {
+      font-size: 1.1rem;
+    }
+  }
+}

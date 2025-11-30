@@ -1,0 +1,164 @@
+<div class="admin-dashboard">
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="header-left">
+        <img src="assets/logo Tunisair.png" alt="Tunisair Logo" class="logo">
+        <h1>Tableau de bord Administrateur</h1>
+      </div>
+      <div class="header-right">
+        <div class="user-info">
+          <span class="welcome-text">Bienvenue, {{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+          <button class="btn btn-outline-danger btn-sm" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <!-- Statistics Cards -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-plane"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.totalFlights }}</h3>
+            <p>Vols Total</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.totalPassengers }}</h3>
+            <p>Passagers</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-euro-sign"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.totalRevenue | currency:'EUR':'symbol':'1.0-0' }}</h3>
+            <p>Revenus</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{ stats.activeBookings }}</h3>
+            <p>Réservations Actives</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vols du jour -->
+    <section class="daily-flights-section">
+      <h2>Vols du jour</h2>
+      <div class="flights-list">
+        <div class="flight-item" *ngFor="let flight of dailyFlights">
+          <div class="flight-info">
+            <div class="flight-route">
+              <span class="from">{{ flight.from }}</span>
+              <i class="fas fa-arrow-right"></i>
+              <span class="to">{{ flight.to }}</span>
+            </div>
+            <div class="flight-time">{{ flight.time }}</div>
+            <div class="flight-status" [class.status-delayed]="flight.status === 'RETARDÉ'">
+              {{ flight.status }}
+            </div>
+          </div>
+          <div class="flight-details">
+            <div class="seats-info">
+              <i class="fas fa-users"></i>
+              <span>{{ flight.occupiedSeats }}/{{ flight.totalSeats }} places</span>
+            </div>
+            <div class="flight-number">{{ flight.flightNumber }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="actions-section">
+      <h2>Actions Rapides</h2>
+      <div class="actions-grid">
+        <button class="action-card" (click)="navigateToFlights()">
+          <i class="fas fa-plane-departure"></i>
+          <h3>Gestion vols</h3>
+          <p>Gérer les vols et horaires</p>
+        </button>
+        
+        <button class="action-card" (click)="navigateToPlanes()">
+          <i class="fas fa-plane"></i>
+          <h3>Avions</h3>
+          <p>Gérer la flotte d'avions</p>
+        </button>
+        
+        <button class="action-card" (click)="navigateToCrew()">
+          <i class="fas fa-user-tie"></i>
+          <h3>Équipages</h3>
+          <p>Gérer les équipages</p>
+        </button>
+        
+        <button class="action-card" (click)="navigateToReports()">
+          <i class="fas fa-chart-bar"></i>
+          <h3>Rapports</h3>
+          <p>Statistiques et rapports</p>
+        </button>
+
+        <button class="action-card" (click)="navigateToReservation()">
+          <i class="fas fa-chart-bar"></i>
+          <h3>Reservation</h3>
+          <p>Reservation</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- Recent Flights -->
+    <section class="recent-section">
+      <h2>Vols Récents</h2>
+      <div class="flights-table">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Numéro de Vol</th>
+              <th>Destination</th>
+              <th>Départ</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let flight of recentFlights">
+              <td>{{ flight.flightNumber }}</td>
+              <td>{{ flight.destination }}</td>
+              <td>{{ flight.departure }}</td>
+              <td>
+                <span class="status-badge" [class.status-on-time]="flight.status === 'On Time'"
+                      [class.status-delayed]="flight.status === 'Delayed'">
+                  {{ flight.status }}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-outline-primary">Voir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>

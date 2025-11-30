@@ -1,0 +1,101 @@
+<div class="container mt-5">
+    <!-- En-tête avec logo et connexion -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <img src="assets/logo Tunisair.png" alt="Tunisair" style="height: 50px" />
+        <button class="btn btn-outline-primary" (click)="onConnect()">Connexion</button>
+    </div>
+
+    <h2>Recherche de Vols ✈️</h2>
+    <form #searchForm="ngForm" (ngSubmit)="searchFlights()">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="from">Ville de départ :</label>
+                <select id="from" name="from" [(ngModel)]="search.from" class="form-control" required>
+                    <option value="">Sélectionnez une ville</option>
+                    <option *ngFor="let city of departures" [value]="city">{{ city }}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="to">Ville d'arrivée :</label>
+                <select id="to" name="to" [(ngModel)]="search.to" class="form-control" required>
+                    <option value="">Sélectionnez une ville</option>
+                    <option *ngFor="let city of arrivals" [value]="city">{{ city }}</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="date">Date du vol :</label>
+                <input type="date" id="date" name="date" [(ngModel)]="search.date" class="form-control" required />
+            </div>
+            <div class="col-md-2">
+                <label for="passengers">Passagers :</label>
+                <input type="number" id="passengers" name="passengers" [(ngModel)]="search.passengers"
+                    class="form-control" min="1" required />
+            </div>
+        </div>
+        <!-- Filtres avancés -->
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <label for="price">Prix max (dt) :</label>
+                <input type="number" id="price" name="price" [(ngModel)]="search.price" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label for="class">Classe :</label>
+                <select id="class" name="class" [(ngModel)]="search.class" class="form-control">
+                    <option value="">Tous</option>
+                    <option value="economique">Économique</option>
+                    <option value="business">Business</option>
+                    <option value="premiere">Première</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="company">Compagnie :</label>
+                <input type="text" id="company" name="company" [(ngModel)]="search.company" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label for="duration">Durée max (h) :</label>
+                <input type="number" id="duration" name="duration" [(ngModel)]="search.duration"
+                    class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label for="escales">Escales :</label>
+                <select id="escales" name="escales" [(ngModel)]="search.escales" class="form-control">
+                    <option value="">Tous</option>
+                    <option value="0">Direct</option>
+                    <option value="1">1 escale</option>
+                    <option value="2">2+ escales</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary mt-4">
+                    Rechercher 🔍
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-4" *ngIf="results.length > 0">
+        <h3>Résultats disponibles :</h3>
+        <div class="card mb-2" *ngFor="let flight of results">
+            <div class="card-body">
+                <p>
+                    ✈️ {{ flight.departure }} → {{ flight.arrival }} le {{ flight.schedule | date: 'dd/MM/yyyy' }} 
+                    (Prix : {{ flight.price }} | Classe : {{ flight.class }} | Compagnie : {{ flight.company }} | 
+                    Durée : {{ flight.duration }}h | Escales : {{ flight.escales }})
+                </p>
+                <button class="btn btn-success" (click)="bookFlight(flight)">
+                    Réserver
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="results.length === 0 && search.from && search.to && search.date" class="alert alert-warning mt-3">
+        Aucun vol trouvé pour ces critères.
+    </div>
+
+    <!-- Liens vers autres fonctionnalités -->
+    <div class="mt-4">
+        <h4>Autres services :</h4>
+        <a routerLink="/user/dashboard" class="btn btn-info me-2">Espace Personnel</a>
+        <a routerLink="/booking" class="btn btn-info">Gérer Réservations</a>
+    </div>
+</div>
