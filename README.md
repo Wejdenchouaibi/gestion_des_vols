@@ -54,7 +54,8 @@ Ajoutez ici vos captures d’écran :
 - JWT Authentication  
 
 ### 🗄️ Base de données
-- MySQL ou PostgreSQL  
+- MongoDB
+- MongoDB compass
 
 ### 🧰 Outils
 - Git & GitHub  
